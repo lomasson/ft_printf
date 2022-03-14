@@ -6,16 +6,22 @@
 /*   By: lomasson <marvin@42.ft>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 10:24:46 by lomasson          #+#    #+#             */
-/*   Updated: 2022/03/13 22:20:22 by lomasson         ###   ########.fr       */
+/*   Updated: 2022/03/14 13:31:18 by lomasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_printf_fonctions(char c, va_list *ap)
+int	ft_print_c(int c)
 {
-	int count;
+	return (write(1, &c, 1));
+}
 
+int	ft_printf_fonctions(int *j, char c, va_list *ap)
+{
+	int	count;
+
+	j[0] = 8;
 	count = 0;
 	if (c == 'c')
 		count = ft_print_c(va_arg(*ap, int));
@@ -23,9 +29,7 @@ int ft_printf_fonctions(char c, va_list *ap)
 		count = ft_print_s(va_arg(*ap, char *));
 	else if (c == 'p')
 		count = ft_print_ptr(va_arg(*ap, unsigned long int), 3, count);
-	else if (c == 'd')
-		count = ft_print_num(va_arg(*ap, int), count);
-	else if (c == 'i')
+	else if (c == 'd' || c == 'i')
 		count = ft_print_num(va_arg(*ap, int), count);
 	else if (c == 'u')
 		count = ft_print_u(va_arg(*ap, unsigned int), count);
@@ -38,35 +42,29 @@ int ft_printf_fonctions(char c, va_list *ap)
 	return (count);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j[1];
 	va_list	ap;
-	char *fonctions;
-	int count;
+	char	*fcs;
+	int		count;
 
-	fonctions = "cspdiu%xX";
+	fcs = "cspdiu%xX";
 	va_start(ap, str);
-	i = 0;
+	i = -1;
 	count = 0;
-	while (str[i])
+	while (str[++i])
 	{
+		j[0] = -1;
 		if (str[i] == '%')
 		{
-			j = -1;
-			while (fonctions[++j] && str[i + 1])
-			{
-				if (str[i + 1] == fonctions[j])
-				{
-					i++;
-					count += ft_printf_fonctions(str[i++], &ap);
-					break;
-				}
-			}
+			while (fcs[++j[0]] && str[i + 1])
+				if (str[i + 1] == fcs[j[0]])
+					count += ft_printf_fonctions(j, str[++i], &ap);
 		}
 		else
-			count += write(1, &str[i++], 1);
+			count += write(1, &str[i], 1);
 	}
 	va_end(ap);
 	return (count);

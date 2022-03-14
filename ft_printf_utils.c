@@ -6,21 +6,16 @@
 /*   By: lomasson <marvin@42.ft>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 21:58:54 by lomasson          #+#    #+#             */
-/*   Updated: 2022/03/13 22:19:57 by lomasson         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:33:45 by lomasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_print_hexa(unsigned int n, int u, int count)
+int	ft_print_hexa(unsigned int n, int u, int count)
 {
-	char c;
+	char	c;
 
-	if (u == 3)
-	{
-		count += write(1, "0x", 2);
-		u = 0;
-	}
 	if (n >= 16)
 	{
 		count = ft_print_hexa(n / 16, u, count);
@@ -39,9 +34,9 @@ int ft_print_hexa(unsigned int n, int u, int count)
 	return (count);
 }
 
-int ft_print_num(long int n, int count)
+int	ft_print_num(long int n, int count)
 {
-	char c;
+	char	c;
 
 	if (n == LONG_MIN)
 		return (write(1, "-9223372036854775808", 20));
@@ -64,9 +59,9 @@ int ft_print_num(long int n, int count)
 	return (count);
 }
 
-int ft_print_ptr(unsigned long int n, int u, int count)
+int	ft_print_ptr(unsigned long int n, int u, int count)
 {
-	char c;
+	char	c;
 
 	if (u == 3)
 	{
@@ -89,10 +84,10 @@ int ft_print_ptr(unsigned long int n, int u, int count)
 	return (count);
 }
 
-int ft_print_s(char *str)
+int	ft_print_s(char *str)
 {
-	int count;
-	int len;
+	int	count;
+	int	len;
 
 	len = 0;
 	count = 0;
@@ -103,9 +98,9 @@ int ft_print_s(char *str)
 	return (count);
 }
 
-int ft_print_u(unsigned int n, int count)
+int	ft_print_u(unsigned int n, int count)
 {
-	char c;
+	char	c;
 
 	if (n >= 10)
 	{
